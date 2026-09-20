@@ -1,5 +1,5 @@
 ---
-import { t, type Locale } from '../i18n';
+import { t, localePath, type Locale } from '../i18n';
 import { SOCIALS } from '../data/site';
 const { locale } = Astro.props as { locale: Locale };
 const dict = t(locale);
@@ -46,9 +46,12 @@ const slides = [
         <span class="font-brand block whitespace-nowrap text-[clamp(2.5rem,10vw,8rem)] text-[var(--color-accent)]">{dict.hero.title_2}</span>
       </h1>
       <p class="mt-6 max-w-xl text-base sm:text-lg text-[var(--color-text)]/85">{dict.hero.tagline}</p>
-      <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <div class="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
         <a href="#support" class="inline-flex items-center justify-center min-w-[15rem] px-6 py-3 text-sm font-semibold tracking-wide uppercase bg-[var(--color-accent)] text-black hover:bg-white transition-colors rounded-sm">
           {dict.hero.cta_primary}
+        </a>
+        <a href={localePath(locale, 'shop')} class="inline-flex items-center justify-center min-w-[15rem] px-6 py-3 text-sm font-semibold tracking-wide uppercase border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-black transition-colors rounded-sm">
+          {dict.hero.cta_shop}
         </a>
         <div class="flex items-stretch gap-3 sm:gap-4 min-w-[15rem]">
           <a href={yt.url} target="_blank" rel="noopener noreferrer" aria-label={yt.label} class="flex-1 inline-flex items-center justify-center px-4 py-3 border border-white/30 text-white hover:bg-[#FF0000]/15 hover:border-[#FF0000] hover:text-[#FF0000] transition-colors rounded-sm">
