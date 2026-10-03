@@ -12,7 +12,7 @@
     "shop": "Magazin",
     "partnerships": "Parteneriate",
     "calculator": "Calculator",
-    "calculator_full": "Calculator Viteză Roată",
+    "calculator_full": "Calculatoare",
     "support": "Susține-ne",
     "cta": "Devino partener"
   },
@@ -242,7 +242,43 @@
     "add_diff": "+ Adaugă raport",
     "remove_diff": "Șterge diferențialul",
     "download": "Descarcă tabelul (imagine)",
-    "disclaimer": "Viteze teoretice la turația dată — fără patinare, creșterea anvelopei la viteză sau limite de putere/aerodinamică."
+    "disclaimer": "Viteze teoretice la turația dată — fără patinare, creșterea anvelopei la viteză sau limite de putere/aerodinamică.",
+    "tabs": {"wheel_speed": "Viteză roată", "toe": "Convergență"}
+  },
+  "toe": {
+    "title": "Calculator convergență",
+    "body": "Convertește convergența (toe) între grade și milimetri. Conversia depinde de diametrul pe care măsori: jantă, anvelopă sau o referință personalizată.",
+    "inputs_title": "Date de intrare",
+    "results_title": "Tabel rapid",
+    "sections": {
+      "reference": "Diametru de referință",
+      "convert": "Conversie"
+    },
+    "ref_modes": {
+      "rim": "Jantă",
+      "tire": "Anvelopă",
+      "custom": "Personalizat"
+    },
+    "labels": {
+      "rim": "Diametru jantă (inch)",
+      "width": "Lățime anvelopă (mm)",
+      "aspect": "Profil anvelopă (%)",
+      "custom": "Diametru referință (mm)",
+      "degrees": "Grade (°)",
+      "mm": "Milimetri (mm)",
+      "dms": "Grade & minute",
+      "reference": "Referință"
+    },
+    "table": {
+      "deg": "°",
+      "dms": "° ′",
+      "mm": "mm"
+    },
+    "deg_to_mm": "Grade → mm",
+    "mm_to_deg": "mm → grade",
+    "hint": "Funcționează pentru convergența pe roată sau totală — introdu același tip în ambele părți. Valori negative = divergență.",
+    "download": "Descarcă tabelul (imagine)",
+    "disclaimer": "mm = Ø × sin(unghi). Standurile de geometrie raportează mm la un diametru de referință fix, care poate diferi de roata ta — verifică ce referință folosește fișa ta."
   },
   "footer": {
     "tagline": "Construim. Conducem. Filmăm. Drift profesionist din România, gata de Europa.",

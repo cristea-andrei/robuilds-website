@@ -1,0 +1,392 @@
+---
+import { t, type Locale } from '../i18n';
+import CalcTabs from './CalcTabs.astro';
+
+const { locale } = Astro.props as { locale: Locale };
+const dict = t(locale);
+const c = dict.toe;
+
+// Reference-table rows: angles (°) → mm, and mm → angles (°).
+const DEG_ROWS = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.75, 1.0];
+const MM_ROWS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 7.5, 10];
+
+const inputClass =
+  'w-full max-w-[9rem] rounded-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] px-3 py-2.5 text-white tabular-nums focus:border-[var(--color-accent)] focus:outline-none transition-colors';
+const bigInputClass =
+  'w-full rounded-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] px-3 py-3 font-display text-2xl sm:text-3xl text-white tabular-nums focus:border-[var(--color-accent)] focus:outline-none transition-colors';
+const labelClass =
+  'block text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5';
+const modeBtnClass =
+  'flex-1 rounded-sm px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors text-[var(--color-text-muted)] hover:text-white aria-pressed:bg-[var(--color-accent)] aria-pressed:text-black';
+---
+<section id="toe-calculator" data-toe class="relative bg-[var(--color-bg)] py-20 sm:py-28 overflow-hidden">
+  <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.05] bg-[radial-gradient(circle_at_70%_30%,var(--color-accent),transparent_55%)]"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="reveal mb-10 sm:mb-14 max-w-3xl">
+      <CalcTabs locale={locale} active="toe" />
+      <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl leading-[0.95] text-white">{c.title}</h1>
+      <p class="mt-5 max-w-2xl text-base sm:text-lg text-[var(--color-text)]/80">{c.body}</p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      <!-- Inputs -->
+      <div class="reveal min-w-0 lg:col-span-5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-sm p-5 sm:p-7">
+        <h2 class="font-display text-xl sm:text-2xl text-white mb-6">{c.inputs_title}</h2>
+
+        <div class="divide-y divide-[var(--color-border)]">
+          <!-- Reference diameter -->
+          <section class="pb-6">
+            <div class="flex items-center justify-between gap-3 mb-3">
+              <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">{c.sections.reference}</h3>
+              <p data-ref-readout class="text-sm text-[var(--color-text-muted)] tabular-nums"></p>
+            </div>
+
+            <div role="group" aria-label={c.sections.reference} class="mb-4 flex rounded-sm border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-1">
+              <button type="button" data-mode="rim" aria-pressed="false" class={modeBtnClass}>{c.ref_modes.rim}</button>
+              <button type="button" data-mode="tire" aria-pressed="true" class={modeBtnClass}>{c.ref_modes.tire}</button>
+              <button type="button" data-mode="custom" aria-pressed="false" class={modeBtnClass}>{c.ref_modes.custom}</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 items-end">
+              <div data-show="rim tire">
+                <label class={labelClass} for="toe-rim">{c.labels.rim}</label>
+                <input id="toe-rim" data-rim type="number" inputmode="decimal" min="0" step="0.5" value="18" class={inputClass} />
+              </div>
+              <div data-show="tire">
+                <label class={labelClass} for="toe-width">{c.labels.width}</label>
+                <input id="toe-width" data-width type="number" inputmode="numeric" min="0" step="5" value="265" class={inputClass} />
+              </div>
+              <div data-show="tire">
+                <label class={labelClass} for="toe-aspect">{c.labels.aspect}</label>
+                <input id="toe-aspect" data-aspect type="number" inputmode="numeric" min="0" step="1" value="35" class={inputClass} />
+              </div>
+              <div data-show="custom" hidden>
+                <label class={labelClass} for="toe-custom">{c.labels.custom}</label>
+                <input id="toe-custom" data-custom type="number" inputmode="decimal" min="0" step="1" value="660" class={inputClass} />
+              </div>
+            </div>
+          </section>
+
+          <!-- Convert (two-way) -->
+          <section class="pt-6">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3">{c.sections.convert}</h3>
+            <div class="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+              <div class="min-w-0">
+                <label class={labelClass} for="toe-deg">{c.labels.degrees}</label>
+                <input id="toe-deg" data-deg type="number" inputmode="decimal" step="0.01" value="0.25" class={bigInputClass} />
+              </div>
+              <svg class="mb-4 shrink-0 text-[var(--color-accent)]" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 4 21 8 17 12"/><line x1="3" y1="8" x2="21" y2="8"/><polyline points="7 20 3 16 7 12"/><line x1="21" y1="16" x2="3" y2="16"/></svg>
+              <div class="min-w-0">
+                <label class={labelClass} for="toe-mm">{c.labels.mm}</label>
+                <input id="toe-mm" data-mm type="number" inputmode="decimal" step="0.1" class={bigInputClass} />
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-[var(--color-text-muted)]">
+              {c.labels.dms}: <span data-dms class="text-white tabular-nums"></span>
+            </p>
+            <p class="mt-4 text-xs text-[var(--color-text-muted)] leading-relaxed">{c.hint}</p>
+          </section>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="min-w-0 lg:col-span-7 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-sm p-5 sm:p-7">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
+          <h2 class="font-display text-xl sm:text-2xl text-white">{c.results_title}</h2>
+          <p data-readout class="text-sm text-[var(--color-text-muted)] tabular-nums"></p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
+          <div class="min-w-0">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2">{c.deg_to_mm}</h3>
+            <table data-table-deg class="w-full text-left border-separate border-spacing-0 tabular-nums"></table>
+          </div>
+          <div class="min-w-0">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2">{c.mm_to_deg}</h3>
+            <table data-table-mm class="w-full text-left border-separate border-spacing-0 tabular-nums"></table>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <button type="button" data-download class="inline-flex items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black hover:bg-white transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {c.download}
+          </button>
+        </div>
+
+        <p class="mt-6 text-xs text-[var(--color-text-muted)] italic leading-relaxed">{c.disclaimer}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ T: c.table, L: c.labels, MODES: c.ref_modes, TITLE: c.title, H_DEG: c.deg_to_mm, H_MM: c.mm_to_deg, DEG_ROWS, MM_ROWS }}>
+  (() => {
+    const section = document.querySelector('[data-toe]');
+    if (!section) return;
+
+    const $ = (sel) => section.querySelector(sel);
+    const degEl = $('[data-deg]');
+    const mmEl = $('[data-mm]');
+    const dmsEl = $('[data-dms]');
+    const refReadout = $('[data-ref-readout]');
+    const readout = $('[data-readout]');
+    const tableDeg = $('[data-table-deg]');
+    const tableMm = $('[data-table-mm]');
+
+    const num = (sel) => {
+      const v = parseFloat($(sel).value);
+      return Number.isFinite(v) ? v : NaN;
+    };
+
+    let mode = 'tire';
+    // Which side of the converter the user last typed in; the other side follows.
+    let driver = 'deg';
+    let last = null; // snapshot for the PNG export
+
+    const RAD = Math.PI / 180;
+    const degToMm = (deg, D) => D * Math.sin(deg * RAD);
+    const mmToDeg = (mm, D) => (Math.abs(mm) <= D ? Math.asin(mm / D) / RAD : NaN);
+
+    // 0.25 → 0°15′ ; -0.1 → -0°06′
+    function dms(deg) {
+      if (!Number.isFinite(deg)) return '—';
+      const sign = deg < 0 ? '-' : '';
+      let total = Math.round(Math.abs(deg) * 60);
+      const d = Math.floor(total / 60);
+      const m = total % 60;
+      return `${sign}${d}°${String(m).padStart(2, '0')}′`;
+    }
+
+    // Trim trailing zeros for the live inputs (3 dp for °, 2 dp for mm).
+    const fmt = (v, dp) => (Number.isFinite(v) ? String(parseFloat(v.toFixed(dp))) : '');
+
+    function reference() {
+      const rim = num('[data-rim]');
+      if (mode === 'rim') {
+        const D = rim * 25.4;
+        return { D, label: `${MODES.rim} ${rim || 0}"` };
+      }
+      if (mode === 'tire') {
+        const width = num('[data-width]');
+        const aspect = num('[data-aspect]');
+        const D = rim * 25.4 + 2 * (width * (aspect / 100));
+        return { D, label: `${width || 0}/${aspect || 0} R${rim || 0}` };
+      }
+      const D = num('[data-custom]');
+      return { D, label: MODES.custom };
+    }
+
+    function setMode(next) {
+      mode = next;
+      section.querySelectorAll('[data-mode]').forEach((b) => {
+        b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false');
+      });
+      section.querySelectorAll('[data-show]').forEach((el) => {
+        el.hidden = !el.dataset.show.split(' ').includes(mode);
+      });
+      recompute();
+    }
+
+    const th = (txt, align) =>
+      `<th class="py-2 px-2 sm:px-3 ${align} text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">${txt}</th>`;
+
+    function buildTable(rows) {
+      // rows: [[accentCell, cell, cell], ...] — first column accent, rest right-aligned.
+      return rows
+        .map((r, ri) => {
+          const zebra = ri % 2 === 1 ? ' bg-[var(--color-bg-elevated)]' : '';
+          return (
+            `<tr class="${zebra}">` +
+              `<td class="border-t border-[var(--color-border)] py-2 px-2 sm:px-3 font-display text-base sm:text-lg text-[var(--color-accent)] whitespace-nowrap">${r[0]}</td>` +
+              `<td class="border-t border-[var(--color-border)] py-2 px-2 sm:px-3 text-right text-sm text-[var(--color-text-muted)] whitespace-nowrap">${r[1]}</td>` +
+              `<td class="border-t border-[var(--color-border)] py-2 px-2 sm:px-3 text-right text-sm sm:text-base text-white whitespace-nowrap">${r[2]}</td>` +
+            `</tr>`
+          );
+        })
+        .join('');
+    }
+
+    function recompute() {
+      const { D, label } = reference();
+      const ok = Number.isFinite(D) && D > 0;
+      const dStr = ok ? `Ø${Math.round(D)} mm` : '—';
+      refReadout.textContent = dStr;
+      readout.textContent = ok ? `${label} · ${dStr}` : '';
+
+      // Live converter: update the side the user isn't typing in.
+      if (driver === 'deg') {
+        const deg = parseFloat(degEl.value);
+        mmEl.value = ok && Number.isFinite(deg) ? fmt(degToMm(deg, D), 2) : '';
+        dmsEl.textContent = dms(deg);
+      } else {
+        const mm = parseFloat(mmEl.value);
+        const deg = ok && Number.isFinite(mm) ? mmToDeg(mm, D) : NaN;
+        degEl.value = fmt(deg, 3);
+        dmsEl.textContent = dms(deg);
+      }
+
+      const degRows = DEG_ROWS.map((a) => [a.toFixed(2), dms(a), ok ? degToMm(a, D).toFixed(2) : '—']);
+      const mmRows = MM_ROWS.map((m) => {
+        const a = ok ? mmToDeg(m, D) : NaN;
+        return [m.toFixed(1), dms(a), Number.isFinite(a) ? a.toFixed(3) : '—'];
+      });
+
+      tableDeg.innerHTML =
+        `<thead><tr>${th(T.deg, 'text-left')}${th(T.dms, 'text-right')}${th(T.mm, 'text-right')}</tr></thead>` +
+        `<tbody>${buildTable(degRows)}</tbody>`;
+      tableMm.innerHTML =
+        `<thead><tr>${th(T.mm, 'text-left')}${th(T.dms, 'text-right')}${th(T.deg, 'text-right')}</tr></thead>` +
+        `<tbody>${buildTable(mmRows)}</tbody>`;
+
+      last = { ref: ok ? `${label} · ${dStr}` : '—', degRows, mmRows };
+    }
+
+    section.addEventListener('input', (e) => {
+      if (e.target === degEl) driver = 'deg';
+      else if (e.target === mmEl) driver = 'mm';
+      recompute();
+    });
+    section.addEventListener('click', (e) => {
+      const m = e.target.closest('[data-mode]');
+      if (m) { setMode(m.dataset.mode); return; }
+      if (e.target.closest('[data-download]')) { downloadImage(); return; }
+    });
+
+    // ---- PNG export ----------------------------------------------------
+    async function downloadImage() {
+      recompute();
+      try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (_) {}
+      const m = last;
+      if (!m) return;
+
+      const logo = new Image();
+      logo.src = '/logos/robuilds/wordmark-white.png';
+      let logoOk = false;
+      try { await logo.decode(); logoOk = logo.naturalWidth > 0; } catch (_) { logoOk = false; }
+
+      const scale = 2;
+      const padX = 48;
+      const titleY = 52;
+      const specTop = 88;
+      const logoCy = 62;
+      const tableTop = specTop + 40;
+      const subH = 28;
+      const headRowH = 36;
+      const rowH = 34;
+      const footH = 60;
+      const colW = [72, 88, 88]; // accent | ° ′ | value
+      const tableW = colW[0] + colW[1] + colW[2];
+      const gap = 56;
+      const W = padX * 2 + tableW * 2 + gap;
+      const rows = Math.max(m.degRows.length, m.mmRows.length);
+      const H = tableTop + subH + headRowH + rows * rowH + footH;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = W * scale;
+      canvas.height = H * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      const BG = '#0A0B0D', CARD = '#15171B', ACCENT = '#57E223';
+      const WHITE = '#F5F5F4', MUTED = '#9CA0A6', BORDER = '#25282E';
+      const display = '"Anton", "Impact", sans-serif';
+      const sans = '"Inter", system-ui, sans-serif';
+
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = WHITE;
+      ctx.font = `24px ${display}`;
+      ctx.fillText(TITLE, padX, titleY);
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(padX, titleY + 12, 56, 3);
+
+      if (logoOk) {
+        const logoH = 60;
+        const logoW = logoH * (logo.naturalWidth / logo.naturalHeight);
+        ctx.drawImage(logo, W - padX - logoW, logoCy - logoH / 2, logoW, logoH);
+      } else {
+        ctx.fillStyle = WHITE;
+        ctx.font = `18px ${display}`;
+        ctx.textAlign = 'right';
+        ctx.fillText('RO BUILDS MOTORSPORT', W - padX, logoCy + 6);
+        ctx.textAlign = 'left';
+      }
+
+      // Spec line
+      ctx.font = `12px ${sans}`;
+      ctx.fillStyle = MUTED;
+      const lab = L.reference.toUpperCase();
+      ctx.fillText(lab, padX, specTop);
+      const lw = ctx.measureText(lab).width;
+      ctx.font = `15px ${sans}`;
+      ctx.fillStyle = WHITE;
+      ctx.fillText(m.ref, padX + lw + 14, specTop);
+
+      const right = (txt, x, y) => { ctx.textAlign = 'right'; ctx.fillText(txt, x, y); ctx.textAlign = 'left'; };
+
+      function drawTable(x0, heading, heads, data) {
+        let y = tableTop;
+        ctx.fillStyle = ACCENT;
+        ctx.font = `600 12px ${sans}`;
+        ctx.fillText(heading.toUpperCase(), x0, y + 14);
+        y += subH;
+
+        ctx.fillStyle = MUTED;
+        ctx.font = `12px ${sans}`;
+        ctx.fillText(heads[0], x0, y + 18);
+        right(heads[1], x0 + colW[0] + colW[1] - 8, y + 18);
+        right(heads[2], x0 + tableW - 8, y + 18);
+        ctx.strokeStyle = BORDER;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x0, y + headRowH - 6);
+        ctx.lineTo(x0 + tableW, y + headRowH - 6);
+        ctx.stroke();
+
+        y += headRowH;
+        data.forEach((r, ri) => {
+          const rowY = y + ri * rowH;
+          if (ri % 2 === 1) {
+            ctx.fillStyle = CARD;
+            ctx.fillRect(x0 - 8, rowY - 6, tableW + 16, rowH);
+          }
+          const tY = rowY + rowH / 2 + 4;
+          ctx.fillStyle = ACCENT;
+          ctx.font = `17px ${display}`;
+          ctx.fillText(r[0], x0, tY);
+          ctx.fillStyle = MUTED;
+          ctx.font = `14px ${sans}`;
+          right(r[1], x0 + colW[0] + colW[1] - 8, tY);
+          ctx.fillStyle = WHITE;
+          ctx.font = `15px ${sans}`;
+          right(r[2], x0 + tableW - 8, tY);
+        });
+      }
+
+      drawTable(padX, H_DEG, [T.deg, T.dms, T.mm], m.degRows);
+      drawTable(padX + tableW + gap, H_MM, [T.mm, T.dms, T.deg], m.mmRows);
+
+      ctx.fillStyle = MUTED;
+      ctx.font = `13px ${sans}`;
+      ctx.fillText('robuilds.ro', padX, H - 24);
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'robuilds-toe.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }, 'image/png');
+    }
+
+    setMode(mode);
+  })();
+</script>

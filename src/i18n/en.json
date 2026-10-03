@@ -12,7 +12,7 @@
     "shop": "Shop",
     "partnerships": "Partnerships",
     "calculator": "Calculator",
-    "calculator_full": "Wheel Speed Calculator",
+    "calculator_full": "Calculators",
     "support": "Support",
     "cta": "Become a partner"
   },
@@ -242,7 +242,43 @@
     "add_diff": "+ Add Ratio",
     "remove_diff": "Remove differential",
     "download": "Download table (image)",
-    "disclaimer": "Theoretical speeds at the given RPM — ignores wheel slip, tire growth at speed and power/aero limits."
+    "disclaimer": "Theoretical speeds at the given RPM — ignores wheel slip, tire growth at speed and power/aero limits.",
+    "tabs": {"wheel_speed": "Wheel speed", "toe": "Toe"}
+  },
+  "toe": {
+    "title": "Toe calculator",
+    "body": "Convert toe between degrees and millimetres. The conversion depends on the diameter you measure across: rim, tire or a custom reference.",
+    "inputs_title": "Inputs",
+    "results_title": "Quick reference",
+    "sections": {
+      "reference": "Reference diameter",
+      "convert": "Convert"
+    },
+    "ref_modes": {
+      "rim": "Rim",
+      "tire": "Tire",
+      "custom": "Custom"
+    },
+    "labels": {
+      "rim": "Rim diameter (in)",
+      "width": "Tire width (mm)",
+      "aspect": "Tire wall / aspect (%)",
+      "custom": "Reference diameter (mm)",
+      "degrees": "Degrees (°)",
+      "mm": "Millimetres (mm)",
+      "dms": "Degrees & minutes",
+      "reference": "Reference"
+    },
+    "table": {
+      "deg": "°",
+      "dms": "° ′",
+      "mm": "mm"
+    },
+    "deg_to_mm": "Degrees → mm",
+    "mm_to_deg": "mm → degrees",
+    "hint": "Works for per-wheel or total toe — enter the same kind on both sides. Negative values = toe-out.",
+    "download": "Download table (image)",
+    "disclaimer": "mm = Ø × sin(angle). Alignment machines quote mm at a fixed reference diameter that may differ from your wheel — check which one your spec sheet uses."
   },
   "footer": {
     "tagline": "We build. We drive. We film. Pro drift out of Romania — heading to Europe next.",

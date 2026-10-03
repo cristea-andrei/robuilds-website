@@ -1,0 +1,27 @@
+---
+import { t, localePath, type Locale } from '../i18n';
+
+interface Props { locale: Locale; active: 'wheel_speed' | 'toe'; }
+const { locale, active } = Astro.props;
+const tabs = t(locale).calculator.tabs;
+
+const items = [
+  { key: 'wheel_speed', label: tabs.wheel_speed, href: localePath(locale, 'calculator') },
+  { key: 'toe', label: tabs.toe, href: localePath(locale, 'calculator/toe') },
+] as const;
+---
+<nav aria-label="Calculators" class="mb-6 inline-flex rounded-sm border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-1">
+  {items.map((it) => (
+    <a
+      href={it.href}
+      aria-current={it.key === active ? 'page' : undefined}
+      class={`rounded-sm px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+        it.key === active
+          ? 'bg-[var(--color-accent)] text-black'
+          : 'text-[var(--color-text-muted)] hover:text-white'
+      }`}
+    >
+      {it.label}
+    </a>
+  ))}
+</nav>
