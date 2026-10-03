@@ -2,7 +2,7 @@
 import { t, localePath, type Locale } from '../i18n';
 import LangSwitch from './LangSwitch.astro';
 
-interface Props { locale: Locale; pageKey?: 'home' | 'partnerships' | 'shop' | 'product' | 'calculator'; }
+interface Props { locale: Locale; pageKey?: 'home' | 'partnerships' | 'shop' | 'product' | 'calculator' | 'bracket'; }
 const { locale, pageKey = 'home' } = Astro.props;
 const dict = t(locale);
 
@@ -15,6 +15,7 @@ const links = [
   { label: dict.nav.partnerships, href: localePath(locale, 'partnerships') },
   { label: dict.nav.shop, href: localePath(locale, 'shop') },
   { label: dict.nav.calculator, mobileLabel: dict.nav.calculator_full, href: localePath(locale, 'calculator') },
+  { label: dict.nav.bracket, mobileLabel: dict.nav.bracket_full, href: localePath(locale, 'bracket') },
 ];
 ---
 <header
@@ -33,7 +34,7 @@ const links = [
       />
     </a>
 
-    <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+    <nav class="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Primary">
       {links.map((l) => (
         <a href={l.href} class="text-base font-medium tracking-wide text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-[var(--color-accent)] after:transition-all hover:after:w-full">
           {l.label}

@@ -13,6 +13,8 @@
     "partnerships": "Parteneriate",
     "calculator": "Calculator",
     "calculator_full": "Calculator Viteză Roată",
+    "bracket": "Bracket",
+    "bracket_full": "Generator Bracket",
     "support": "Susține-ne",
     "cta": "Devino partener"
   },
@@ -243,6 +245,58 @@
     "remove_diff": "Șterge diferențialul",
     "download": "Descarcă tabelul (imagine)",
     "disclaimer": "Viteze teoretice la turația dată — fără patinare, creșterea anvelopei la viteză sau limite de putere/aerodinamică."
+  },
+  "bracket": {
+    "title": "Generator bracket battle",
+    "body": "Construiește tabloul de battle Top 32, Top 16 sau Top 8 din ordinea de la calificări. Încarcă-l direct de pe pagina etapei de pe rodrift.ro sau lipește lista, apoi apasă pe piloți ca să-i treci mai departe.",
+    "inputs_title": "Calificați",
+    "sections": {
+      "link": "Încarcă de pe rodrift.ro",
+      "list": "Ordinea de la calificări",
+      "setup": "Bracket"
+    },
+    "labels": {
+      "url": "Link etapă",
+      "url_placeholder": "https://rodrift.ro/etapa/...",
+      "class": "Clasa",
+      "list": "Un pilot pe linie, primul calificat sus",
+      "event": "Numele evenimentului (apare pe imagine)",
+      "event_placeholder": "ex. Etapa 5 · Pro",
+      "size": "Mărime bracket",
+      "tables": "Tabele găsite pe pagină"
+    },
+    "classes": {
+      "pro": "Pro",
+      "semipro": "Semipro"
+    },
+    "load": "Încarcă",
+    "loading": "Se încarcă…",
+    "list_hint": "Pozițiile, tab-urile și punctajele sunt ignorate, deci merge și un tabel copiat direct de pe pagina de rezultate.",
+    "results_title": "Bracket",
+    "legend": "Apasă pe un pilot ca să treacă mai departe. Apasă din nou ca să anulezi.",
+    "rounds": {
+      "32": "Top 32",
+      "16": "Top 16",
+      "8": "Top 8",
+      "4": "Semifinale",
+      "2": "Finala",
+      "third": "Locul 3",
+      "winner": "Câștigător"
+    },
+    "bye": "BYE",
+    "count": "{n} piloți",
+    "count_cut": "{n} piloți · se folosesc primii {size}",
+    "empty": "Adaugă cel puțin doi piloți ca să construiești bracket-ul.",
+    "reset": "Resetează rezultatele",
+    "download": "Descarcă bracket-ul (imagine)",
+    "status": {
+      "bad_url": "Nu pare a fi un link de pe rodrift.ro.",
+      "fetch_failed": "Nu am putut accesa rodrift.ro din browser. Deschide pagina etapei, selectează tabelul de calificări, copiază-l și lipește-l în lista de mai jos.",
+      "not_found": "Nu am găsit un tabel de calificări pe pagină. Copiază tabelul de pe pagină și lipește-l în lista de mai jos.",
+      "no_class": "Nu am găsit calificările {cls} — alege tabelul corect mai jos sau lipește lista.",
+      "loaded": "Am încărcat {n} piloți din „{table}”."
+    },
+    "disclaimer": "Seeding standard: 1 vs 32, 16 vs 17 și așa mai departe, deci primii doi calificați se pot întâlni doar în finală. Dacă sunt mai puțini piloți decât locuri, primii calificați primesc BYE."
   },
   "footer": {
     "tagline": "Construim. Conducem. Filmăm. Drift profesionist din România, gata de Europa.",

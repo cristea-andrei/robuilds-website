@@ -1,0 +1,808 @@
+---
+import { t, type Locale } from '../i18n';
+
+const { locale } = Astro.props as { locale: Locale };
+const dict = t(locale);
+const b = dict.bracket;
+
+const SIZES = [32, 16, 8];
+
+const inputClass =
+  'w-full rounded-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] px-3 py-2.5 text-white placeholder:text-[var(--color-text-muted)]/60 focus:border-[var(--color-accent)] focus:outline-none transition-colors';
+const labelClass =
+  'block text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5';
+const sectionTitleClass =
+  'text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3';
+// Segmented toggle buttons; the active one carries aria-pressed="true".
+const toggleClass =
+  'flex-1 rounded-sm border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-white aria-pressed:border-[var(--color-accent)] aria-pressed:bg-[var(--color-accent)] aria-pressed:text-black transition-colors';
+---
+<section id="bracket" data-bracket class="relative bg-[var(--color-bg)] py-20 sm:py-28 overflow-hidden">
+  <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.05] bg-[radial-gradient(circle_at_70%_30%,var(--color-accent),transparent_55%)]"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="reveal mb-10 sm:mb-14 max-w-3xl">
+      <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl leading-[0.95] text-white">{b.title}</h1>
+      <p class="mt-5 max-w-2xl text-base sm:text-lg text-[var(--color-text)]/80">{b.body}</p>
+    </div>
+
+    <div class="grid gap-6 lg:gap-8">
+      <!-- Inputs -->
+      <div class="reveal min-w-0 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-sm p-5 sm:p-7">
+        <h2 class="font-display text-xl sm:text-2xl text-white mb-6">{b.inputs_title}</h2>
+
+        <div class="grid lg:grid-cols-3 lg:gap-x-8 divide-y lg:divide-y-0 divide-[var(--color-border)]">
+          <!-- rodrift.ro link -->
+          <section class="pb-6 lg:pb-0">
+            <h3 class={sectionTitleClass}>{b.sections.link}</h3>
+            <form data-link-form class="space-y-4" novalidate>
+              <div>
+                <label class={labelClass} for="bracket-url">{b.labels.url}</label>
+                <div class="flex gap-2.5">
+                  <input id="bracket-url" data-url type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder={b.labels.url_placeholder} class={inputClass} />
+                  <button type="submit" data-load class="shrink-0 inline-flex items-center justify-center rounded-sm bg-[var(--color-accent)] px-4 py-2.5 text-sm font-semibold uppercase tracking-wider text-black hover:bg-white disabled:opacity-60 disabled:cursor-wait transition-colors">
+                    {b.load}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <span class={labelClass}>{b.labels.class}</span>
+                <div class="flex gap-2" role="group" aria-label={b.labels.class}>
+                  <button type="button" data-class="pro" aria-pressed="true" class={toggleClass}>{b.classes.pro}</button>
+                  <button type="button" data-class="semipro" aria-pressed="false" class={toggleClass}>{b.classes.semipro}</button>
+                </div>
+              </div>
+            </form>
+            <p data-status role="status" class="hidden mt-4 text-sm leading-relaxed"></p>
+            <div data-candidates-wrap class="hidden mt-4">
+              <span class={labelClass}>{b.labels.tables}</span>
+              <div data-candidates class="flex flex-wrap gap-2"></div>
+            </div>
+          </section>
+
+          <!-- Qualifying list -->
+          <section class="py-6 lg:py-0">
+            <h3 class={sectionTitleClass}>{b.sections.list}</h3>
+            <div class="flex items-baseline justify-between gap-3 mb-1.5">
+              <label class="text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]" for="bracket-list">{b.labels.list}</label>
+            </div>
+            <textarea id="bracket-list" data-list rows="9" spellcheck="false" class={`${inputClass} font-sans text-sm leading-6 resize-y min-h-[10rem]`}></textarea>
+            <p class="mt-2 text-xs text-[var(--color-text-muted)] leading-relaxed">{b.list_hint}</p>
+          </section>
+
+          <!-- Setup -->
+          <section class="pt-6 lg:pt-0 space-y-4">
+            <h3 class={sectionTitleClass}>{b.sections.setup}</h3>
+            <div>
+              <span class={labelClass}>{b.labels.size}</span>
+              <div class="flex gap-2" role="group" aria-label={b.labels.size}>
+                {SIZES.map((s) => (
+                  <button type="button" data-size={s} aria-pressed={s === 32 ? 'true' : 'false'} class={toggleClass}>Top {s}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label class={labelClass} for="bracket-event">{b.labels.event}</label>
+              <input id="bracket-event" data-event type="text" autocomplete="off" placeholder={b.labels.event_placeholder} class={inputClass} />
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Bracket -->
+      <div class="min-w-0 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-sm p-5 sm:p-7">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-1">
+          <h2 class="font-display text-xl sm:text-2xl text-white">{b.results_title}</h2>
+          <p data-readout class="text-sm text-[var(--color-text-muted)] tabular-nums"></p>
+        </div>
+        <p class="text-xs text-[var(--color-text-muted)] mb-5">{b.legend}</p>
+
+        <div class="overflow-x-auto -mx-1 px-1 pb-2">
+          <div data-tree class="relative"></div>
+          <p data-empty class="hidden py-16 text-center text-sm text-[var(--color-text-muted)]">{b.empty}</p>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <button type="button" data-download class="inline-flex items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black hover:bg-white transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {b.download}
+          </button>
+          <button type="button" data-reset class="text-sm font-medium text-[var(--color-accent)] hover:text-white transition-colors">
+            {b.reset}
+          </button>
+        </div>
+
+        <p class="mt-6 text-xs text-[var(--color-text-muted)] italic leading-relaxed">{b.disclaimer}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ B: b }}>
+  (() => {
+    const section = document.querySelector('[data-bracket]');
+    if (!section) return;
+
+    const $ = (sel) => section.querySelector(sel);
+    const $$ = (sel) => [...section.querySelectorAll(sel)];
+    const listEl = $('[data-list]');
+    const urlEl = $('[data-url]');
+    const eventEl = $('[data-event]');
+    const tree = $('[data-tree]');
+    const emptyEl = $('[data-empty]');
+    const readout = $('[data-readout]');
+    const statusEl = $('[data-status]');
+    const loadBtn = $('[data-load]');
+    const candWrap = $('[data-candidates-wrap]');
+    const candEl = $('[data-candidates]');
+
+    const fmt = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => (vars[k] != null ? vars[k] : ''));
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const fold = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const clean = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+
+    // ---- State ---------------------------------------------------------
+    const state = {
+      cls: 'pro',
+      size: 32,
+      sizeManual: false, // once the user picks a size, stop auto-sizing from the list length
+      picks: {},         // match key ("r-m" or "third") -> seed of the winner
+    };
+    let candidates = []; // tables found on the last fetched page
+
+    const STORE_KEY = 'robuilds-bracket';
+    function save() {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          list: listEl.value, url: urlEl.value, event: eventEl.value,
+          cls: state.cls, size: state.size, sizeManual: state.sizeManual, picks: state.picks,
+        }));
+      } catch (_) {}
+    }
+    function restore() {
+      try {
+        const s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+        if (!s) return;
+        listEl.value = s.list || '';
+        urlEl.value = s.url || '';
+        eventEl.value = s.event || '';
+        if (s.cls === 'pro' || s.cls === 'semipro') state.cls = s.cls;
+        if ([8, 16, 32].includes(s.size)) state.size = s.size;
+        state.sizeManual = !!s.sizeManual;
+        state.picks = s.picks && typeof s.picks === 'object' ? s.picks : {};
+      } catch (_) {}
+    }
+
+    // ---- Qualifying list parsing --------------------------------------
+    // Accepts plain names, "1. Name", "1) Name", or rows copied from a
+    // results table (tab-separated: position, name, car, scores…).
+    const isScore = (s) => /^[-+]?\d+(?:[.,]\d+)?%?$/.test(s);
+    const HEADER_RE = /\b(pilot|piloti|nume|driver|name|concurent)\b/i;
+
+    function parseList(text) {
+      const rows = [];
+      text.split(/\r?\n/).forEach((raw) => {
+        const line = raw.trim();
+        if (!line) return;
+        let cells = line.includes('\t') ? line.split('\t') : line.split(/\s*;\s*/);
+        cells = cells.map(clean).filter(Boolean);
+        if (!cells.length) return;
+
+        let rank = null;
+        const lead = cells[0].match(/^#?(\d{1,3})(?:[.)\-:]|st|nd|rd|th)?$/i);
+        if (lead && cells.length > 1) {
+          rank = parseInt(lead[1], 10);
+          cells.shift();
+        } else if (cells.length === 1) {
+          const m = cells[0].match(/^#?(\d{1,3})\s*[.)\-:]?\s+(.+)$/);
+          if (m) { rank = parseInt(m[1], 10); cells[0] = m[2]; }
+        }
+        const name = cells.find((c) => /\p{L}/u.test(c) && !isScore(c));
+        if (!name) return;
+        if (rank === null && cells.length > 1 && HEADER_RE.test(line)) return; // header row
+        rows.push({ rank, name });
+      });
+      // Sort by position only when every row carries one.
+      if (rows.length && rows.every((r) => r.rank !== null)) rows.sort((a, b) => a.rank - b.rank);
+      return rows.map((r) => r.name);
+    }
+
+    // ---- rodrift.ro loader --------------------------------------------
+    // rodrift.ro doesn't send CORS headers, so a static site can't read it
+    // directly; try direct first, then fall back to public CORS proxies.
+    const SOURCES = [
+      (u) => u,
+      (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+      (u) => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u),
+      (u) => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+    ];
+
+    function normalizeUrl(input) {
+      let s = clean(input);
+      if (!s) return null;
+      if (!/^https?:\/\//i.test(s)) s = 'https://' + s;
+      try {
+        const u = new URL(s);
+        if (!/(^|\.)rodrift\.ro$/i.test(u.hostname)) return null;
+        u.protocol = 'https:';
+        return u.toString();
+      } catch (_) {
+        return null;
+      }
+    }
+
+    async function fetchHtml(url) {
+      for (const make of SOURCES) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 12000);
+        try {
+          const res = await fetch(make(url), { signal: ctrl.signal, credentials: 'omit' });
+          if (!res.ok) continue;
+          const html = await res.text();
+          if (/<table|<html/i.test(html)) return html;
+        } catch (_) {
+          // CORS block, timeout or proxy down: try the next source
+        } finally {
+          clearTimeout(timer);
+        }
+      }
+      return null;
+    }
+
+    // Labels of Bootstrap-style tabs that point at a pane id.
+    function tabLabels(doc, id) {
+      const sel = [`[href="#${id}"]`, `[data-bs-target="#${id}"]`, `[data-target="#${id}"]`, `[aria-controls="${id}"]`]
+        .map((s) => { try { return [...doc.querySelectorAll(s)]; } catch (_) { return []; } })
+        .flat();
+      return sel.map((el) => clean(el.textContent)).filter(Boolean);
+    }
+
+    // Text around a table, nearest first: caption, nearby headings, pane
+    // ids/classes and tab labels, walking up a few ancestors.
+    function contextOf(doc, table) {
+      const parts = [];
+      const cap = table.querySelector('caption');
+      if (cap) parts.push(clean(cap.textContent));
+      let node = table;
+      for (let depth = 0; node && node !== doc.body && depth < 6; depth++) {
+        let sib = node.previousElementSibling;
+        for (let hops = 0; sib && hops < 4; hops++) {
+          if (sib.matches('table') || sib.querySelector('table')) break;
+          const txt = clean(sib.textContent);
+          if (txt && txt.length <= 120) { parts.push(txt); break; }
+          sib = sib.previousElementSibling;
+        }
+        if (node !== table) {
+          if (node.id) parts.push(...tabLabels(doc, node.id), node.id.replace(/[-_]/g, ' '));
+          const cls = typeof node.className === 'string' ? node.className : '';
+          if (/semi|pro|calif|qualif/i.test(cls)) parts.push(cls.replace(/[-_]/g, ' '));
+        }
+        node = node.parentElement;
+      }
+      return parts;
+    }
+
+    function tableNames(table) {
+      const rows = [...table.rows].map((tr) => [...tr.cells].map((c) => clean(c.textContent)));
+      if (rows.length < 2) return { names: [], header: '' };
+      const headerIdx = [...table.rows].findIndex((tr) => tr.querySelector('th') && !tr.querySelector('td'));
+      const header = headerIdx >= 0 ? rows[headerIdx] : [];
+      const body = rows.filter((r, i) => i !== headerIdx && r.some(Boolean));
+      const width = Math.max(...body.map((r) => r.length));
+
+      let nameCol = header.findIndex((h) => /pilot|nume|driver|name|concurent/.test(fold(h)));
+      if (nameCol < 0) {
+        // Leftmost column that's mostly text (names), not positions or scores.
+        for (let c = 0; c < width && nameCol < 0; c++) {
+          const vals = body.map((r) => r[c] || '');
+          const texty = vals.filter((v) => /\p{L}{2}/u.test(v) && !isScore(v)).length;
+          if (texty >= body.length * 0.6) nameCol = c;
+        }
+      }
+      if (nameCol < 0) return { names: [], header: header.join(' ') };
+
+      let rankCol = header.findIndex((h) => /^(#|loc|poz|pozitie|pos|rank|place|nr\.?)$/.test(fold(h)));
+      if (rankCol < 0 && nameCol > 0 && body.every((r) => /^\d{1,3}\.?$/.test(r[0] || ''))) rankCol = 0;
+
+      let out = body
+        .map((r, i) => ({ i, name: r[nameCol] || '', rank: rankCol >= 0 ? parseInt(r[rankCol], 10) : NaN }))
+        .filter((r) => /\p{L}/u.test(r.name));
+      if (rankCol >= 0 && out.every((r) => Number.isFinite(r.rank))) out.sort((a, b) => a.rank - b.rank || a.i - b.i);
+      return { names: out.map((r) => r.name), header: header.join(' ') };
+    }
+
+    function findCandidates(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const title = clean((doc.querySelector('h1') || doc.querySelector('title') || {}).textContent || '');
+      const list = [...doc.querySelectorAll('table')].map((table, idx) => {
+        const { names, header } = tableNames(table);
+        if (names.length < 2) return null;
+        const parts = contextOf(doc, table);
+        const all = fold(parts.join(' | ') + ' | ' + header);
+        // Class comes from the nearest context that names one.
+        let cls = null;
+        for (const p of parts) {
+          const f = fold(p);
+          if (/semi\s*-?\s*pro/.test(f)) { cls = 'semipro'; break; }
+          if (/\bpro\b/.test(f)) { cls = 'pro'; break; }
+        }
+        const qual = /calif|qualif|\brun\b|\btur\b|mansa|best|cel mai bun/.test(all);
+        const battle = /battle|bracket|top\s?(32|16|8|4)|\bvs\b|clasament general|campionat/.test(fold(parts[0] || ''));
+        const label = (parts.find((p) => p.length >= 3 && p.length <= 60) || `#${idx + 1}`);
+        return { label, names, cls, qual, battle, idx };
+      }).filter(Boolean);
+      return { title, list };
+    }
+
+    function scoreFor(c, cls) {
+      let s = 0;
+      if (c.qual) s += 4;
+      if (c.battle && !c.qual) s -= 4;
+      if (c.cls === cls) s += 3;
+      else if (c.cls) s -= 3;
+      if (c.names.length >= 4) s += 1;
+      return s;
+    }
+
+    function bestFor(cls) {
+      if (!candidates.length) return null;
+      return [...candidates].sort((a, b) => scoreFor(b, cls) - scoreFor(a, cls) || a.idx - b.idx)[0];
+    }
+
+    function setStatus(msg, tone) {
+      statusEl.textContent = msg || '';
+      statusEl.classList.toggle('hidden', !msg);
+      statusEl.classList.toggle('text-[var(--color-red)]', tone === 'error');
+      statusEl.classList.toggle('text-[var(--color-accent)]', tone === 'ok');
+      statusEl.classList.toggle('text-[var(--color-text-muted)]', tone !== 'error' && tone !== 'ok');
+    }
+
+    function renderCandidates(active) {
+      candWrap.classList.toggle('hidden', candidates.length < 2);
+      candEl.innerHTML = candidates.map((c, i) => {
+        const on = c === active;
+        return `<button type="button" data-cand="${i}" aria-pressed="${on}" class="max-w-full truncate rounded-sm border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-2.5 py-1.5 text-xs text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-white aria-pressed:border-[var(--color-accent)] aria-pressed:text-[var(--color-accent)] transition-colors">${esc(c.label)} · ${c.names.length}</button>`;
+      }).join('');
+    }
+
+    function useCandidate(c, warnClass) {
+      renderCandidates(c);
+      if (!c) return;
+      listEl.value = c.names.join('\n');
+      state.picks = {};
+      state.sizeManual = false;
+      if (warnClass && c.cls !== state.cls) {
+        setStatus(fmt(B.status.no_class, { cls: B.classes[state.cls] }), 'error');
+      } else {
+        setStatus(fmt(B.status.loaded, { n: c.names.length, table: c.label }), 'ok');
+      }
+      render();
+    }
+
+    let pageTitle = '';
+    async function loadFromLink() {
+      const url = normalizeUrl(urlEl.value);
+      if (!url) { setStatus(B.status.bad_url, 'error'); return; }
+      urlEl.value = url;
+      loadBtn.disabled = true;
+      loadBtn.textContent = B.loading;
+      setStatus('');
+      try {
+        const html = await fetchHtml(url);
+        if (!html) { candidates = []; renderCandidates(null); setStatus(B.status.fetch_failed, 'error'); return; }
+        const found = findCandidates(html);
+        candidates = found.list;
+        pageTitle = found.title;
+        if (!candidates.length) { renderCandidates(null); setStatus(B.status.not_found, 'error'); return; }
+        if (!eventEl.value.trim() && pageTitle) eventEl.value = `${pageTitle} · ${B.classes[state.cls]}`;
+        useCandidate(bestFor(state.cls), candidates.some((c) => c.cls));
+      } finally {
+        loadBtn.disabled = false;
+        loadBtn.textContent = B.load;
+      }
+    }
+
+    // ---- Bracket model -------------------------------------------------
+    // Standard seeding order: [1,2] -> [1,4,2,3] -> [1,8,4,5,2,7,3,6] …
+    function seedOrder(size) {
+      let order = [1, 2];
+      while (order.length < size) {
+        const n = order.length * 2 + 1;
+        order = order.flatMap((s) => [s, n - s]);
+      }
+      return order;
+    }
+
+    const BYE = { bye: true };
+    function resolve(match, key) {
+      const { a, b } = match;
+      let winner = null, loser = null;
+      if (a && b) {
+        if (a.bye && b.bye) { winner = BYE; loser = BYE; }
+        else if (b.bye) { winner = a; loser = BYE; }
+        else if (a.bye) { winner = b; loser = BYE; }
+        else if (state.picks[key] === a.seed) { winner = a; loser = b; }
+        else if (state.picks[key] === b.seed) { winner = b; loser = a; }
+      }
+      return { ...match, key, winner, loser };
+    }
+
+    function buildModel(names) {
+      const size = state.size;
+      const drivers = names.slice(0, size);
+      const driver = (seed) => (seed <= drivers.length ? { seed, name: drivers[seed - 1] } : BYE);
+      const order = seedOrder(size);
+      const rounds = [];
+      let prev = null;
+      for (let n = size / 2, r = 0; n >= 1; n /= 2, r++) {
+        const round = [];
+        for (let m = 0; m < n; m++) {
+          const a = prev ? prev[2 * m].winner : driver(order[2 * m]);
+          const b = prev ? prev[2 * m + 1].winner : driver(order[2 * m + 1]);
+          round.push(resolve({ a, b }, `${r}-${m}`));
+        }
+        rounds.push(round);
+        prev = round;
+      }
+      const semis = rounds[rounds.length - 2];
+      const third = semis ? resolve({ a: semis[0].loser, b: semis[1].loser }, 'third') : null;
+      const champion = rounds[rounds.length - 1][0].winner;
+      return { rounds, third, champion, used: drivers.length };
+    }
+
+    // Drop picks that no longer match the drivers in their battle (e.g.
+    // after an earlier result was changed), so the tree stays consistent.
+    function prunePicks(model) {
+      const valid = {};
+      const keep = (m) => {
+        const p = state.picks[m.key];
+        if (p != null && m.winner && m.winner.seed === p) valid[m.key] = p;
+      };
+      model.rounds.flat().forEach(keep);
+      if (model.third) keep(model.third);
+      state.picks = valid;
+    }
+
+    // ---- Layout (shared by the DOM view and the PNG export) -------------
+    // Sized so a Top 32 tree fits the full-width card on desktop (narrower screens scroll).
+    const L = { colW: 172, gap: 28, slotH: 32, headH: 34, matchGap: 16, thirdGap: 46, winW: 140 };
+    L.matchH = L.slotH * 2 + 1;
+    L.unit = L.matchH + L.matchGap;
+
+    function roundLabel(n) {
+      return B.rounds[String(n * 2)] || `Top ${n * 2}`;
+    }
+
+    function layout(model) {
+      const R = model.rounds.length;
+      const first = model.rounds[0].length;
+      const colX = (r) => r * (L.colW + L.gap);
+      const cy = (r, m) => L.headH + (m + 0.5) * L.unit * 2 ** r;
+      const finalCy = cy(R - 1, 0);
+      const thirdTop = finalCy + L.matchH / 2 + L.thirdGap;
+      const width = colX(R) + L.winW;
+      const height = Math.max(L.headH + first * L.unit, model.third ? thirdTop + L.matchH + 4 : 0);
+      return { R, colX, cy, finalCy, thirdTop, width, height };
+    }
+
+    // ---- DOM render ----------------------------------------------------
+    function slotHtml(match, side, clickable) {
+      const d = match[side];
+      const base = 'flex w-full items-center gap-2 px-2.5 text-left text-sm transition-colors';
+      const h = `style="height:${L.slotH}px"`;
+      if (!d) return `<div class="${base} text-[var(--color-text-muted)]/50" ${h}>—</div>`;
+      if (d.bye) return `<div class="${base} text-xs italic tracking-wider text-[var(--color-text-muted)]/60" ${h}>${B.bye}</div>`;
+      const won = match.winner && match.winner.seed === d.seed;
+      const lost = match.winner && !won;
+      const tone = won
+        ? 'bg-[color-mix(in_oklab,var(--color-accent)_14%,transparent)] text-white font-semibold'
+        : lost ? 'text-[var(--color-text-muted)]/55' : 'text-[var(--color-text)]';
+      const seed = `<span class="w-6 shrink-0 text-xs tabular-nums ${won ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}">${d.seed}</span>`;
+      const name = `<span class="truncate">${esc(d.name)}</span>`;
+      if (!clickable) return `<div class="${base} ${tone}" ${h}>${seed}${name}</div>`;
+      return `<button type="button" data-pick="${match.key}" data-seed="${d.seed}" title="${esc(d.name)}" class="${base} ${tone} hover:bg-[var(--color-bg-card)] hover:text-white cursor-pointer" ${h}>${seed}${name}</button>`;
+    }
+
+    function matchHtml(match, x, top) {
+      const clickable = !!(match.a && match.b && !match.a.bye && !match.b.bye);
+      const decided = !!match.winner && !match.winner.bye;
+      const border = decided ? 'border-[var(--color-accent)]/60' : 'border-[var(--color-border)]';
+      return (
+        `<div class="absolute overflow-hidden rounded-sm border ${border} bg-[var(--color-bg-elevated)] divide-y divide-[var(--color-border)]" ` +
+          `style="left:${x}px;top:${top}px;width:${L.colW}px;height:${L.matchH + 2}px">` +
+          slotHtml(match, 'a', clickable) + slotHtml(match, 'b', clickable) +
+        `</div>`
+      );
+    }
+
+    function render() {
+      const names = parseList(listEl.value);
+      if (!state.sizeManual) state.size = names.length <= 8 ? 8 : names.length <= 16 ? 16 : 32;
+      $$('[data-size]').forEach((el) => el.setAttribute('aria-pressed', String(+el.dataset.size === state.size)));
+      $$('[data-class]').forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.class === state.cls)));
+
+      readout.textContent = names.length
+        ? fmt(names.length > state.size ? B.count_cut : B.count, { n: names.length, size: state.size })
+        : '';
+
+      if (names.length < 2) {
+        tree.innerHTML = '';
+        tree.style.width = tree.style.height = '0px';
+        emptyEl.classList.remove('hidden');
+        lastModel = null;
+        save();
+        return;
+      }
+      emptyEl.classList.add('hidden');
+
+      let model = buildModel(names);
+      prunePicks(model);
+      model = buildModel(names);
+      const g = layout(model);
+
+      const parts = [];
+      const lines = [];
+      model.rounds.forEach((round, r) => {
+        const x = g.colX(r);
+        parts.push(`<div class="absolute top-0 font-display text-sm sm:text-base tracking-wide text-[var(--color-text-muted)]" style="left:${x}px">${esc(roundLabel(round.length))}</div>`);
+        round.forEach((match, m) => {
+          const c = g.cy(r, m);
+          parts.push(matchHtml(match, x, c - L.matchH / 2));
+          // Connector to the next round (or to the winner box after the final).
+          const x1 = x + L.colW, xm = x1 + L.gap / 2, x2 = x1 + L.gap;
+          if (r < g.R - 1) {
+            const c2 = g.cy(r + 1, Math.floor(m / 2));
+            lines.push(`M${x1} ${c}H${xm}V${c2}H${x2}`);
+          } else {
+            lines.push(`M${x1} ${c}H${x2}`);
+          }
+        });
+      });
+
+      // Winner box
+      const wx = g.colX(g.R);
+      const champ = model.champion && !model.champion.bye ? model.champion : null;
+      parts.push(`<div class="absolute top-0 font-display text-sm sm:text-base tracking-wide text-[var(--color-accent)]" style="left:${wx}px">${esc(B.rounds.winner)}</div>`);
+      parts.push(
+        `<div class="absolute flex items-center gap-2 rounded-sm border px-3 ${champ ? 'border-[var(--color-accent)] bg-[var(--color-accent)] text-black shadow-[var(--shadow-glow)]' : 'border-[var(--color-border)] bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)]/50'}" ` +
+          `style="left:${wx}px;top:${g.finalCy - 22}px;width:${L.winW}px;height:44px">` +
+          (champ
+            ? `<span class="text-xs tabular-nums opacity-70">${champ.seed}</span><span class="truncate font-display text-lg leading-none">${esc(champ.name)}</span>`
+            : '—') +
+        `</div>`
+      );
+
+      // Battle for 3rd, under the final
+      if (model.third) {
+        const x = g.colX(g.R - 1);
+        parts.push(`<div class="absolute font-display text-sm tracking-wide text-[var(--color-text-muted)]" style="left:${x}px;top:${g.thirdTop - 26}px">${esc(B.rounds.third)}</div>`);
+        parts.push(matchHtml(model.third, x, g.thirdTop));
+      }
+
+      tree.style.width = g.width + 'px';
+      tree.style.height = g.height + 'px';
+      tree.innerHTML =
+        `<svg class="absolute inset-0 pointer-events-none" width="${g.width}" height="${g.height}" aria-hidden="true">` +
+          `<path d="${lines.join('')}" fill="none" stroke="var(--color-border)" stroke-width="1.5"/>` +
+        `</svg>` + parts.join('');
+
+      lastModel = model;
+      save();
+    }
+    let lastModel = null;
+
+    // ---- Events --------------------------------------------------------
+    $('[data-link-form]').addEventListener('submit', (e) => { e.preventDefault(); loadFromLink(); });
+    listEl.addEventListener('input', render);
+    eventEl.addEventListener('input', save);
+    urlEl.addEventListener('input', save);
+
+    section.addEventListener('click', (e) => {
+      const pick = e.target.closest('[data-pick]');
+      if (pick) {
+        const key = pick.dataset.pick, seed = +pick.dataset.seed;
+        if (state.picks[key] === seed) delete state.picks[key];
+        else state.picks[key] = seed;
+        render();
+        return;
+      }
+      const sizeBtn = e.target.closest('[data-size]');
+      if (sizeBtn) { state.size = +sizeBtn.dataset.size; state.sizeManual = true; render(); return; }
+      const clsBtn = e.target.closest('[data-class]');
+      if (clsBtn) {
+        if (state.cls === clsBtn.dataset.class) return;
+        state.cls = clsBtn.dataset.class;
+        // Swap to the other class's table without refetching.
+        if (candidates.length) {
+          const prevSuffix = ` · ${B.classes[state.cls === 'pro' ? 'semipro' : 'pro']}`;
+          if (eventEl.value.endsWith(prevSuffix)) eventEl.value = eventEl.value.slice(0, -prevSuffix.length) + ` · ${B.classes[state.cls]}`;
+          useCandidate(bestFor(state.cls), candidates.some((c) => c.cls));
+        } else render();
+        return;
+      }
+      const cand = e.target.closest('[data-cand]');
+      if (cand) { useCandidate(candidates[+cand.dataset.cand], false); return; }
+      if (e.target.closest('[data-reset]')) { state.picks = {}; render(); return; }
+      if (e.target.closest('[data-download]')) { downloadImage(); return; }
+    });
+
+    // ---- PNG export ----------------------------------------------------
+    async function downloadImage() {
+      render();
+      const model = lastModel;
+      if (!model) return;
+      try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (_) {}
+
+      const logo = new Image();
+      logo.src = '/logos/robuilds/wordmark-white.png';
+      let logoOk = false;
+      try { await logo.decode(); logoOk = logo.naturalWidth > 0; } catch (_) { logoOk = false; }
+
+      const g = layout(model);
+      const scale = 2, padX = 48, top = 132, footH = 56;
+      const W = Math.max(g.width + padX * 2, 720);
+      const H = top + g.height + footH;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = W * scale;
+      canvas.height = H * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      const BG = '#0A0B0D', CARD = '#15171B', ACCENT = '#57E223';
+      const WHITE = '#F5F5F4', MUTED = '#9CA0A6', BORDER = '#25282E';
+      const display = '"Anton", "Impact", sans-serif';
+      const sans = '"Inter", system-ui, sans-serif';
+
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, W, H);
+
+      // Header: title + subtitle left, logo right (same as the calculator export)
+      const title = clean(eventEl.value) || B.title;
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = WHITE;
+      ctx.font = `28px ${display}`;
+      ctx.fillText(title.toUpperCase(), padX, 60);
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(padX, 74, 56, 3);
+      ctx.fillStyle = MUTED;
+      ctx.font = `14px ${sans}`;
+      ctx.fillText(`${roundLabel(model.rounds[0].length)} · ${fmt(B.count, { n: model.used })}`, padX, 102);
+
+      if (logoOk) {
+        const logoH = 60;
+        const logoW = logoH * (logo.naturalWidth / logo.naturalHeight);
+        ctx.drawImage(logo, W - padX - logoW, 66 - logoH / 2, logoW, logoH);
+      } else {
+        ctx.fillStyle = WHITE;
+        ctx.font = `18px ${display}`;
+        ctx.textAlign = 'right';
+        ctx.fillText('RO BUILDS MOTORSPORT', W - padX, 72);
+        ctx.textAlign = 'left';
+      }
+
+      const ox = padX, oy = top;
+      const fit = (txt, maxW) => {
+        if (ctx.measureText(txt).width <= maxW) return txt;
+        let s = txt;
+        while (s.length > 1 && ctx.measureText(s + '…').width > maxW) s = s.slice(0, -1);
+        return s + '…';
+      };
+
+      // Connectors
+      ctx.strokeStyle = BORDER;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      model.rounds.forEach((round, r) => {
+        round.forEach((_, m) => {
+          const c = oy + g.cy(r, m);
+          const x1 = ox + g.colX(r) + L.colW, xm = x1 + L.gap / 2, x2 = x1 + L.gap;
+          ctx.moveTo(x1, c);
+          if (r < g.R - 1) {
+            const c2 = oy + g.cy(r + 1, Math.floor(m / 2));
+            ctx.lineTo(xm, c); ctx.lineTo(xm, c2); ctx.lineTo(x2, c2);
+          } else {
+            ctx.lineTo(x2, c);
+          }
+        });
+      });
+      ctx.stroke();
+
+      const drawSlot = (match, side, x, y) => {
+        const d = match[side];
+        const midY = y + L.slotH / 2 + 5;
+        if (!d) { ctx.fillStyle = MUTED; ctx.font = `13px ${sans}`; ctx.fillText('—', x + 10, midY); return; }
+        if (d.bye) { ctx.fillStyle = MUTED; ctx.font = `italic 12px ${sans}`; ctx.fillText(B.bye, x + 10, midY); return; }
+        const won = match.winner && match.winner.seed === d.seed;
+        const lost = match.winner && !won;
+        if (won) {
+          ctx.fillStyle = 'rgba(87,226,35,0.14)';
+          ctx.fillRect(x, y, L.colW, L.slotH);
+        }
+        ctx.font = `12px ${sans}`;
+        ctx.fillStyle = won ? ACCENT : MUTED;
+        ctx.fillText(String(d.seed), x + 10, midY);
+        ctx.font = `${won ? '600 ' : ''}14px ${sans}`;
+        ctx.fillStyle = lost ? 'rgba(156,160,166,0.6)' : WHITE;
+        ctx.fillText(fit(d.name, L.colW - 44), x + 34, midY);
+      };
+
+      const drawMatch = (match, x, y) => {
+        const decided = !!match.winner && !match.winner.bye;
+        ctx.fillStyle = CARD;
+        ctx.fillRect(x, y, L.colW, L.matchH);
+        drawSlot(match, 'a', x, y);
+        drawSlot(match, 'b', x, y + L.slotH + 1);
+        ctx.fillStyle = BORDER;
+        ctx.fillRect(x, y + L.slotH, L.colW, 1);
+        ctx.strokeStyle = decided ? 'rgba(87,226,35,0.6)' : BORDER;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x + 0.5, y + 0.5, L.colW - 1, L.matchH - 1);
+      };
+
+      const label = (txt, x, y, color) => {
+        ctx.fillStyle = color || MUTED;
+        ctx.font = `15px ${display}`;
+        ctx.fillText(txt.toUpperCase(), x, y);
+      };
+
+      model.rounds.forEach((round, r) => {
+        const x = ox + g.colX(r);
+        label(roundLabel(round.length), x, oy + 16);
+        round.forEach((match, m) => drawMatch(match, x, oy + g.cy(r, m) - L.matchH / 2));
+      });
+
+      if (model.third) {
+        const x = ox + g.colX(g.R - 1);
+        label(B.rounds.third, x, oy + g.thirdTop - 10);
+        drawMatch(model.third, x, oy + g.thirdTop);
+      }
+
+      // Winner box
+      const wx = ox + g.colX(g.R);
+      const wy = oy + g.finalCy - 22;
+      label(B.rounds.winner, wx, oy + 16, ACCENT);
+      const champ = model.champion && !model.champion.bye ? model.champion : null;
+      if (champ) {
+        ctx.fillStyle = ACCENT;
+        ctx.fillRect(wx, wy, L.winW, 44);
+        ctx.fillStyle = BG;
+        ctx.font = `18px ${display}`;
+        ctx.fillText(fit(champ.name.toUpperCase(), L.winW - 24), wx + 12, wy + 29);
+      } else {
+        ctx.strokeStyle = BORDER;
+        ctx.strokeRect(wx + 0.5, wy + 0.5, L.winW - 1, 43);
+        ctx.fillStyle = MUTED;
+        ctx.font = `14px ${sans}`;
+        ctx.fillText('—', wx + 12, wy + 27);
+      }
+
+      ctx.fillStyle = MUTED;
+      ctx.font = `13px ${sans}`;
+      ctx.fillText('robuilds.ro', padX, H - 22);
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'robuilds-bracket.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }, 'image/png');
+    }
+
+    // ---- Init ----------------------------------------------------------
+    restore();
+    // Deep link: /bracket?url=https://rodrift.ro/etapa/...&class=semipro
+    const params = new URLSearchParams(location.search);
+    if (params.get('class') === 'semipro' || params.get('class') === 'pro') state.cls = params.get('class');
+    render();
+    if (params.get('url')) {
+      urlEl.value = params.get('url');
+      loadFromLink();
+    }
+  })();
+</script>

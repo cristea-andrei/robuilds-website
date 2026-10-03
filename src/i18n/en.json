@@ -13,6 +13,8 @@
     "partnerships": "Partnerships",
     "calculator": "Calculator",
     "calculator_full": "Wheel Speed Calculator",
+    "bracket": "Bracket",
+    "bracket_full": "Bracket Generator",
     "support": "Support",
     "cta": "Become a partner"
   },
@@ -243,6 +245,58 @@
     "remove_diff": "Remove differential",
     "download": "Download table (image)",
     "disclaimer": "Theoretical speeds at the given RPM — ignores wheel slip, tire growth at speed and power/aero limits."
+  },
+  "bracket": {
+    "title": "Battle bracket generator",
+    "body": "Build a Top 32, Top 16 or Top 8 battle bracket from the qualifying order. Load it straight from a rodrift.ro event page or paste the list, then click drivers to advance them.",
+    "inputs_title": "Qualifiers",
+    "sections": {
+      "link": "Load from rodrift.ro",
+      "list": "Qualifying order",
+      "setup": "Bracket"
+    },
+    "labels": {
+      "url": "Event link",
+      "url_placeholder": "https://rodrift.ro/etapa/...",
+      "class": "Class",
+      "list": "One driver per line, best qualifier first",
+      "event": "Event name (shown on the image)",
+      "event_placeholder": "e.g. Round 5 · Pro",
+      "size": "Bracket size",
+      "tables": "Tables found on the page"
+    },
+    "classes": {
+      "pro": "Pro",
+      "semipro": "Semipro"
+    },
+    "load": "Load",
+    "loading": "Loading…",
+    "list_hint": "Positions, tabs and scores are ignored, so a table copied straight from a results page works.",
+    "results_title": "Bracket",
+    "legend": "Click a driver to send them through. Click again to undo.",
+    "rounds": {
+      "32": "Top 32",
+      "16": "Top 16",
+      "8": "Top 8",
+      "4": "Semifinals",
+      "2": "Final",
+      "third": "Battle for 3rd",
+      "winner": "Winner"
+    },
+    "bye": "BYE",
+    "count": "{n} drivers",
+    "count_cut": "{n} drivers · first {size} used",
+    "empty": "Add at least two drivers to build the bracket.",
+    "reset": "Reset results",
+    "download": "Download bracket (image)",
+    "status": {
+      "bad_url": "That doesn’t look like a rodrift.ro link.",
+      "fetch_failed": "Couldn’t reach rodrift.ro from the browser. Open the event page, select the qualifying table, copy it and paste it into the list below.",
+      "not_found": "No qualifying table found on that page. Copy the table from the page and paste it into the list below.",
+      "no_class": "No {cls} qualifying table found — pick the right one below, or paste the list.",
+      "loaded": "Loaded {n} drivers from “{table}”."
+    },
+    "disclaimer": "Standard seeding: 1 vs 32, 16 vs 17 and so on, so the top two qualifiers can only meet in the final. With fewer drivers than slots, the top seeds get byes."
   },
   "footer": {
     "tagline": "We build. We drive. We film. Pro drift out of Romania — heading to Europe next.",

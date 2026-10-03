@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import Bracket from '../../components/Bracket.astro';
+import { t } from '../../i18n';
+
+const locale = 'en' as const;
+const dict = t(locale);
+---
+<Base locale={locale} pageKey="bracket" titleOverride={`${dict.bracket.title} · ${dict.meta.title}`} descriptionOverride={dict.bracket.body}>
+  <Bracket locale={locale} />
+</Base>
