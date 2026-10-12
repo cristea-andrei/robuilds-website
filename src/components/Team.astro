@@ -25,10 +25,10 @@ const results = RESULTS_ORDER.map((k) => {
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="reveal mb-10 sm:mb-14 max-w-3xl">
       <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--color-accent)] mb-4">{dict.team.kicker}</p>
-      <h2 class="font-display text-3xl sm:text-5xl lg:text-6xl leading-[0.95] text-white sm:whitespace-nowrap">{dict.team.title}</h2>
+      <h2 class="font-display text-3xl sm:text-5xl lg:text-6xl leading-[1.25] text-white sm:whitespace-nowrap">{dict.team.title}</h2>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-5">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
       {members.map((m, i) => (
         <article class="reveal group relative aspect-[3/4] overflow-hidden rounded-sm bg-[var(--color-bg-card)] border border-[var(--color-border)]" style={`transition-delay: ${i * 80}ms`}>
           {m.hasPhoto ? (
@@ -51,23 +51,18 @@ const results = RESULTS_ORDER.map((k) => {
 
     <ol id="results" class="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16">
       {results.map((it, i) => {
-        const isCurrent = it.key === 'y2026';
+        const isLatest = it.key === 'y2026';
         const isFuture = it.key === 'future';
         return (
           <li
             class={`reveal relative bg-[var(--color-bg-card)] rounded-sm p-6 sm:p-8 overflow-hidden group ${isFuture ? 'border-2 border-dashed border-[var(--color-accent)]/50' : 'border border-[var(--color-border)]'}`}
             style={`transition-delay: ${i * 100}ms`}
           >
-            <div class={`absolute top-0 left-0 h-1 w-full ${isCurrent ? 'bg-[var(--color-accent)]' : isFuture ? 'bg-transparent' : 'bg-[var(--color-border)]'}`}></div>
-            <div class={`font-display leading-[0.95] ${isFuture ? 'text-xl sm:text-2xl text-[var(--color-accent)]' : 'text-5xl sm:text-7xl text-white/90'}`}>
+            <div class={`absolute top-0 left-0 h-1 w-full ${isLatest ? 'bg-[var(--color-accent)]' : isFuture ? 'bg-transparent' : 'bg-[var(--color-border)]'}`}></div>
+            <div class={`font-display leading-[0.95] text-5xl sm:text-7xl ${isFuture ? 'text-[var(--color-accent)]' : 'text-white/90'}`}>
               {it.year}
             </div>
-            <p class={`mt-3 text-sm sm:text-base ${isCurrent ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>{it.label}</p>
-            {isCurrent && (
-              <span class="absolute top-4 right-4 text-[10px] uppercase tracking-widest font-semibold bg-[var(--color-accent)] text-black px-2 py-0.5 rounded-sm">
-                {locale === 'ro' ? 'În curs' : 'Live'}
-              </span>
-            )}
+            <p class={`mt-3 text-sm sm:text-base ${isLatest ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>{it.label}</p>
             {isFuture && (
               <span class="absolute top-4 right-4 text-[10px] uppercase tracking-widest font-semibold border border-[var(--color-accent)]/60 text-[var(--color-accent)] px-2 py-0.5 rounded-sm">
                 {locale === 'ro' ? 'Țintă' : 'Goal'}

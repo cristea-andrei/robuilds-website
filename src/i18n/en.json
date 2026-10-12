@@ -18,19 +18,19 @@
   },
   "hero": {
     "eyebrow": "Pro drift team · Romania",
+    "eyebrow_result": "4th nationally in 2026",
     "title_1": "RO BUILDS",
     "title_2": "MOTORSPORT",
     "tagline": "Pro drift team. Romania's biggest drift YouTube channel.",
     "cta_primary": "Become a partner",
-    "cta_secondary": "Watch on YouTube",
-    "cta_shop": "Visit the shop"
+    "cta_secondary": "Watch on YouTube"
   },
   "about": {
     "kicker": "About",
     "title": "Conquering Romanian drift, with passion.",
-    "body": "We're a motorsport-obsessed team entering our fifth season in the Romanian National Drift Championship (RoDrift). Promoted to the PRO class in 2024. P7 in 2025. Fighting for the title in 2026. We hand-build our cars, film the whole process and run Romania's biggest drift YouTube channel.",
+    "body": "We're a motorsport-obsessed team that just wrapped our fifth season in the Romanian National Drift Championship (RoDrift). Promoted to the PRO class in 2024. P7 in 2025. P4 overall in 2026. In 2027, we're going international. We hand-build our cars, film the whole process and run Romania's biggest drift YouTube channel.",
     "stats": {
-      "season": "P7 in 2025",
+      "season": "P4 in 2026",
       "class": "PRO class"
     }
   },
@@ -66,7 +66,7 @@
   },
   "team": {
     "kicker": "Team",
-    "title": "Five people, one mission.",
+    "title": "Four people, one mission.",
     "members": {
       "andrei": {
         "name": "Andrei Cristea",
@@ -96,8 +96,8 @@
     "items": {
       "y2024": { "year": "2024", "label": "Promoted to PRO class" },
       "y2025": { "year": "2025", "label": "P7 in RoDrift PRO" },
-      "y2026": { "year": "2026", "label": "P3 — current season" },
-      "future": { "year": "What's next?", "label": "Win Romanian Drift Championship. Participate in Drift Masters European Championship and other international events." }
+      "y2026": { "year": "2026", "label": "P4 overall in RoDrift PRO" },
+      "future": { "year": "2027", "label": "Going international: competing at drift events abroad." }
     }
   },
   "reach": {

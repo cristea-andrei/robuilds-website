@@ -39,7 +39,7 @@ const slides = [
   <div class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 pb-20 sm:pb-28">
     <div class="reveal max-w-4xl">
       <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.3em] text-[var(--color-accent)] mb-5">
-        {dict.hero.eyebrow}
+        {dict.hero.eyebrow}<span class="hidden sm:inline"> · </span><span class="block sm:inline mt-2 sm:mt-0">{dict.hero.eyebrow_result}</span>
       </p>
       <h1 class="leading-[0.85] tracking-tight text-white">
         <span class="font-brand block whitespace-nowrap text-[clamp(2.5rem,10vw,8rem)]">{dict.hero.title_1}</span>
@@ -50,10 +50,10 @@ const slides = [
         <a href="#support" class="inline-flex items-center justify-center min-w-[15rem] px-6 py-3 text-sm font-semibold tracking-wide uppercase bg-[var(--color-accent)] text-black hover:bg-white transition-colors rounded-sm">
           {dict.hero.cta_primary}
         </a>
-        <a href={localePath(locale, 'shop')} class="inline-flex items-center justify-center min-w-[15rem] px-6 py-3 text-sm font-semibold tracking-wide uppercase border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-black transition-colors rounded-sm">
-          {dict.hero.cta_shop}
-        </a>
         <div class="flex items-stretch gap-3 sm:gap-4 min-w-[15rem]">
+          <a href={localePath(locale, 'shop')} class="flex-[2] sm:flex-none inline-flex items-center justify-center px-6 py-3 text-sm font-semibold tracking-wide uppercase border border-white/30 text-white hover:bg-[var(--color-accent)]/15 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors rounded-sm">
+            {dict.nav.shop}
+          </a>
           <a href={yt.url} target="_blank" rel="noopener noreferrer" aria-label={yt.label} class="flex-1 inline-flex items-center justify-center px-4 py-3 border border-white/30 text-white hover:bg-[#FF0000]/15 hover:border-[#FF0000] hover:text-[#FF0000] transition-colors rounded-sm">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.2-1.6-.9-2.3c-.8-.9-1.8-.9-2.2-1C16.3 4 12 4 12 4s-4.3 0-7.9.2c-.4 0-1.4.1-2.2 1C1.2 5.9 1 7.5 1 7.5S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.8.9 1.9.9 2.4 1 1.7.2 7.6.2 7.6.2s4.3 0 7.9-.3c.4-.1 1.4-.1 2.2-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.3-3.7-.3-3.7zM9.7 15.4V8.6l5.6 3.4-5.6 3.4z"/></svg>
           </a>

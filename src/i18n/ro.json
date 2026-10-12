@@ -18,19 +18,19 @@
   },
   "hero": {
     "eyebrow": "Pro drift team · România",
+    "eyebrow_result": "Locul 4 național în 2026",
     "title_1": "RO BUILDS",
     "title_2": "MOTORSPORT",
     "tagline": "Echipă profesionistă de drift. Cel mai mare canal de YouTube despre drift din România.",
     "cta_primary": "Devino partener",
-    "cta_secondary": "Vezi pe YouTube",
-    "cta_shop": "Vezi magazinul"
+    "cta_secondary": "Vezi pe YouTube"
   },
   "about": {
     "kicker": "Despre echipă",
     "title": "Cucerim driftul românesc, cu pasiune.",
-    "body": "Suntem o echipă pasionată de motorsport, intrată în al cincilea sezon în Campionatul Național de Drift (RoDrift). În 2024 am fost promovați în clasa PRO. În 2025 am terminat sezonul pe locul 7. În 2026 luptăm pentru titlu. Construim mașinile cu mâna noastră, filmăm tot procesul și avem cel mai mare canal de YouTube despre drift din România.",
+    "body": "Suntem o echipă pasionată de motorsport și tocmai am încheiat al cincilea sezon în Campionatul Național de Drift (RoDrift). În 2024 am fost promovați în clasa PRO. În 2025 am terminat sezonul pe locul 7, iar în 2026 pe locul 4 la general. În 2027 trecem la nivel internațional. Construim mașinile cu mâna noastră, filmăm tot procesul și avem cel mai mare canal de YouTube despre drift din România.",
     "stats": {
-      "season": "Locul 7 în 2025",
+      "season": "Locul 4 în 2026",
       "class": "Clasa PRO"
     }
   },
@@ -66,7 +66,7 @@
   },
   "team": {
     "kicker": "Echipa",
-    "title": "Cinci oameni, o singură misiune.",
+    "title": "Patru oameni, o singură misiune.",
     "members": {
       "andrei": {
         "name": "Andrei Cristea",
@@ -96,8 +96,8 @@
     "items": {
       "y2024": { "year": "2024", "label": "Promovați în clasa PRO" },
       "y2025": { "year": "2025", "label": "Locul 7 în RoDrift PRO" },
-      "y2026": { "year": "2026", "label": "Locul 3 — sezon în curs" },
-      "future": { "year": "Ce urmează?", "label": "Câștigarea Campionatului Național de Drift. Participare în Drift Masters European Championship și alte evenimente internaționale." }
+      "y2026": { "year": "2026", "label": "Locul 4 la general în RoDrift PRO" },
+      "future": { "year": "2027", "label": "Trecem la nivel internațional: concurăm la evenimente de drift din afara țării." }
     }
   },
   "reach": {

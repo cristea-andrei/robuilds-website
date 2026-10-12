@@ -65,12 +65,14 @@ export const TEAM = [
     photoFallback: '/images/team/radu.jpg',
     instagram: '',
   },
-  {
-    key: 'bogdan',
-    photo: '/images/team/bogdan.webp',
-    photoFallback: '/images/team/bogdan.jpg',
-    instagram: '',
-  },
+  // Bogdan is off the roster for now; uncomment to bring him back
+  // (and restore the Team grid to sm:grid-cols-3 lg:grid-cols-5).
+  // {
+  //   key: 'bogdan',
+  //   photo: '/images/team/bogdan.webp',
+  //   photoFallback: '/images/team/bogdan.jpg',
+  //   instagram: '',
+  // },
 ] as const;
 
 export const REACH = [
@@ -79,7 +81,7 @@ export const REACH = [
   { key: 'tv', value: 12.9, unit: 'M' },
   { key: 'radio', value: 2.4, unit: 'M' },
   { key: 'attendance', value: 11.2, unit: 'K' },
-  { key: 'yt_subs', value: 6.3, unit: 'K' },
+  { key: 'yt_subs', value: 6.5, unit: 'K' },
   { key: 'ig_followers', value: 3.7, unit: 'K' },
   { key: 'tt_followers', value: 1.2, unit: 'K' },
 ] as const;
