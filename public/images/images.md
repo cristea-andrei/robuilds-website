@@ -68,6 +68,11 @@ Overcast light, candid energy (peace signs, fists in the air). Best for a
 "community" or "events" block where the human / family side of the team
 matters more than the cars.
 
+### `team-fans-palace-tent.{webp,jpg}`
+Team, family and fans (30+ people, most in RO Builds tees and pink caps)
+under the RO Builds Motorsport tent with a Pakelo flag, Palace of the
+Parliament behind, golden-hour light. Used in the homepage Community grid.
+
 ### `fans-supporters-portrait.{webp,jpg}`
 Two supporters in RD Builds caps and Pakelo / RD Builds tees at an outdoor
 event, one giving a peace sign. Strong human-element shot for a merch,
@@ -86,6 +91,7 @@ community, or testimonials section.
 | team-podium-redbull-trophy          | images/9e7154ff-3af0-4c60-8ad8-028da1906829.jpg       |
 | team-group-photo                    | images/aa2b0b39-e68b-4da1-9b96-7783cf60da2c.jpg       |
 | team-paddock-group                  | images/IMG_0857.JPG                                   |
+| team-fans-palace-tent               | images/c42bcacc-294f-4cf1-bc8a-72cd9e636c0e.jpg       |
 | fans-supporters-portrait            | images/3786425a-de6d-4e2f-b26a-e26a0376f823.jpg       |
 
 `images/IMG_3097.jpg` was skipped — it is a lower-resolution screenshot of
