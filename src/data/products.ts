@@ -160,6 +160,39 @@ export const PRODUCTS: Product[] = [
       ],
     },
   },
+  {
+    slug: 'suport-telefon',
+    name: { ro: 'Suport Telefon', en: 'Phone Holder' },
+    price: 120,
+    status: 'available',
+    category: 'parts-3d',
+    images: [
+      '/images/shop/phone-holder-2',
+      '/images/shop/phone-holder-1',
+      '/images/shop/phone-holder-4',
+      '/images/shop/phone-holder-3',
+    ],
+    blurb: {
+      ro: 'Suport de telefon printat 3D, gândit pentru suprafețe plate, precum portierele din fibră de sticlă sau kevlar.',
+      en: '3D-printed phone holder, designed for flat surfaces such as fiberglass or kevlar doors.',
+    },
+    description: {
+      ro: [
+        'Suport de telefon printat 3D, conceput pentru a fi montat pe suprafețe plate — exact ce găsești pe portierele de competiție din fibră de sticlă sau kevlar.',
+        'Telefonul stă la îndemână și la vedere, fără ventuze sau cleme care să cedeze în timpul unei ture.',
+        'Disponibil în mărimile Mic și Mare. La cerere, putem realiza și dimensiuni personalizate, potrivite exact pentru telefonul tău.',
+      ],
+      en: [
+        'A 3D-printed phone holder designed to mount on flat surfaces — exactly what you find on fiberglass or kevlar motorsport doors.',
+        'Your phone stays within reach and in view, with no suction cups or clamps to give up mid-run.',
+        'Available in Small and Large sizes. Custom sizes can also be made on request to fit your phone exactly.',
+      ],
+    },
+    variants: [
+      { label: { ro: 'Mic', en: 'Small' }, price: 120 },
+      { label: { ro: 'Mare', en: 'Large' }, price: 120 },
+    ],
+  },
 ];
 
 export function getProduct(slug: string): Product | undefined {
