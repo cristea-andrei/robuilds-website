@@ -2,6 +2,8 @@
 import Base from '../../../layouts/Base.astro';
 import ShopHero from '../../../components/ShopHero.astro';
 import ShopGrid from '../../../components/ShopGrid.astro';
+import Resellers from '../../../components/Resellers.astro';
+import ResellerModal from '../../../components/ResellerModal.astro';
 import Contact from '../../../components/Contact.astro';
 import { t } from '../../../i18n';
 
@@ -11,5 +13,7 @@ const dict = t(locale);
 <Base locale={locale} pageKey="shop" titleOverride={`${dict.shop.title} · ${dict.meta.title}`}>
   <ShopHero locale={locale} />
   <ShopGrid locale={locale} />
+  <Resellers locale={locale} />
+  <ResellerModal />
   <Contact locale={locale} />
 </Base>

@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import Contact from '../../../components/Contact.astro';
+import ResellerModal from '../../../components/ResellerModal.astro';
 import { t, localePath } from '../../../i18n';
 import { PRODUCTS, productName } from '../../../data/products';
 import { SITE } from '../../../data/site';
@@ -99,6 +100,7 @@ const waHref = `${SITE.whatsappUrl}?text=${encodeURIComponent(waMsg)}`;
   </section>
 
   <Contact locale={locale} />
+  <ResellerModal />
 
   <script is:inline>
     const gallery = document.querySelector('[data-gallery]');

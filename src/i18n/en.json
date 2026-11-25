@@ -251,5 +251,12 @@
     "contact_label": "Contact",
     "form230": "Form 230",
     "rights": "All rights reserved."
+  },
+  "resellers": {
+    "kicker": "Official resellers",
+    "title": "Buy outside Romania.",
+    "body": "Our products are also sold by official resellers abroad.",
+    "official_for": "Official reseller ·",
+    "visit": "Visit"
   }
 }

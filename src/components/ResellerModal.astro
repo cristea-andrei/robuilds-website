@@ -1,0 +1,84 @@
+---
+// Shown on shop pages to visitors whose browser looks like it's in a country with an
+// official reseller. English only on purpose (agreed with the owner). Dismissal is
+// remembered for 30 days in localStorage.
+import { RESELLERS, telHref } from '../data/resellers';
+
+const detectable = RESELLERS.filter((r) => r.detect);
+---
+{detectable.map((r) => (
+  <dialog
+    data-reseller-modal
+    data-key={r.key}
+    data-tz={JSON.stringify(r.detect!.timeZones)}
+    data-lang={JSON.stringify(r.detect!.languages)}
+    aria-labelledby={`reseller-${r.key}-title`}
+    class="reseller-modal m-auto w-[calc(100%-2rem)] max-w-md bg-[var(--color-bg-elevated)] text-[var(--color-text)] border border-[var(--color-border)] rounded-sm p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+  >
+    <div class="p-6 sm:p-8">
+      <div class="flex items-center justify-center h-20 bg-white/5 rounded-sm px-4 mb-6">
+        {r.logo
+          ? <img src={r.logo} alt={r.name} class="max-h-14 max-w-full object-contain" />
+          : <span class="font-display text-3xl tracking-wider text-white uppercase">{r.name}</span>}
+      </div>
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">Shopping from {r.country.en}?</p>
+      <h2 id={`reseller-${r.key}-title`} class="mt-2 font-display text-2xl sm:text-3xl text-white leading-tight">
+        {r.name} is our official reseller for {r.country.en}.
+      </h2>
+      <p class="mt-3 text-sm text-[var(--color-text-muted)]">
+        Order RO Builds products locally from {r.name}, or keep browsing our shop.
+      </p>
+      <ul class="mt-4 space-y-1 text-sm text-[var(--color-text-muted)]">
+        <li>{r.address}</li>
+        <li>
+          {r.phones.map((p, i) => (
+            <>{i > 0 && ' · '}<a href={telHref(p)} class="hover:text-[var(--color-accent)] transition-colors">{p}</a></>
+          ))}
+        </li>
+        <li><a href={`mailto:${r.email}`} class="hover:text-[var(--color-accent)] transition-colors">{r.email}</a></li>
+      </ul>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <a href={r.url} target="_blank" rel="noopener" data-reseller-go autofocus class="flex-1 inline-flex items-center justify-center bg-[var(--color-accent)] hover:bg-[var(--color-accent-deep)] text-black font-semibold text-sm px-5 py-3 rounded-sm transition-colors">
+          Go to {r.name}
+        </a>
+        <button type="button" data-reseller-close class="flex-1 inline-flex items-center justify-center border border-[var(--color-border)] hover:border-[var(--color-accent)] text-white font-semibold text-sm px-5 py-3 rounded-sm transition-colors">
+          Continue browsing
+        </button>
+      </div>
+    </div>
+  </dialog>
+))}
+
+<script>
+  const DAYS_30 = 30 * 24 * 60 * 60 * 1000;
+  const storageKey = (k: string) => `reseller-modal-dismissed:${k}`;
+
+  const tz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { return ''; } })();
+  const langs = (navigator.languages?.length ? navigator.languages : [navigator.language || ''])
+    .map((l) => l.toLowerCase().split('-')[0]);
+
+  const forced = new URLSearchParams(location.search).get('reseller'); // ?reseller=rivigum for testing
+
+  for (const dlg of document.querySelectorAll<HTMLDialogElement>('dialog[data-reseller-modal]')) {
+    const key = dlg.dataset.key!;
+    const tzs: string[] = JSON.parse(dlg.dataset.tz || '[]');
+    const ls: string[] = JSON.parse(dlg.dataset.lang || '[]');
+    // Primary browser language only, so e.g. a Romanian with Hungarian as a 3rd language isn't caught.
+    const matches = tzs.includes(tz) || ls.includes(langs[0]);
+    if (!matches && forced !== key) continue;
+
+    let dismissedAt = 0;
+    try { dismissedAt = Number(localStorage.getItem(storageKey(key)) || 0); } catch {}
+    if (forced !== key && Date.now() - dismissedAt < DAYS_30) continue;
+
+    const remember = () => { try { localStorage.setItem(storageKey(key), String(Date.now())); } catch {} };
+    dlg.addEventListener('close', remember);
+    dlg.querySelector('[data-reseller-close]')?.addEventListener('click', () => { remember(); dlg.close(); });
+    dlg.querySelector('[data-reseller-go]')?.addEventListener('click', () => { remember(); dlg.close(); });
+    // Click on the backdrop closes it.
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+    dlg.showModal();
+    break; // never stack two modals
+  }
+</script>

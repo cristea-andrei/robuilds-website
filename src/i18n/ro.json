@@ -251,5 +251,12 @@
     "contact_label": "Contact",
     "form230": "Formular 230",
     "rights": "Toate drepturile rezervate."
+  },
+  "resellers": {
+    "kicker": "Distribuitori oficiali",
+    "title": "Cumpără din afara României.",
+    "body": "Produsele noastre se vând și prin distribuitori oficiali din străinătate.",
+    "official_for": "Distribuitor oficial ·",
+    "visit": "Vizitează"
   }
 }
