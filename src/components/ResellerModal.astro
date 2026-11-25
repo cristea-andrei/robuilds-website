@@ -21,13 +21,9 @@ const detectable = RESELLERS.filter((r) => r.detect);
           ? <img src={r.logo} alt={r.name} class="max-h-14 max-w-full object-contain" />
           : <span class="font-display text-3xl tracking-wider text-white uppercase">{r.name}</span>}
       </div>
-      <p class="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">Shopping from {r.country.en}?</p>
-      <h2 id={`reseller-${r.key}-title`} class="mt-2 font-display text-2xl sm:text-3xl text-white leading-tight">
+      <h2 id={`reseller-${r.key}-title`} class="font-display text-2xl sm:text-3xl text-white leading-tight">
         {r.name} is our official reseller for {r.country.en}.
       </h2>
-      <p class="mt-3 text-sm text-[var(--color-text-muted)]">
-        Order RO Builds products locally from {r.name}, or keep browsing our shop.
-      </p>
       <ul class="mt-4 space-y-1 text-sm text-[var(--color-text-muted)]">
         <li>{r.address}</li>
         <li>
