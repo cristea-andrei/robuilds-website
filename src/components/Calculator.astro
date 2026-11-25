@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { t, type Locale } from '../i18n';
 
 const { locale } = Astro.props as { locale: Locale };
@@ -105,7 +106,7 @@ const labelClass =
                 <div data-diff-row class="flex items-center gap-2.5">
                   <input data-diff-ratio type="number" inputmode="decimal" min="0" step="0.01" value={d} class={inputClass} />
                   <button type="button" data-remove-diff aria-label={c.remove_diff} class="shrink-0 w-9 h-9 inline-flex items-center justify-center rounded-sm border border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-red)] hover:text-[var(--color-red)] transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    <Icon name="Minus" size={16} strokeWidth={2.2} />
                   </button>
                 </div>
               ))}
@@ -131,7 +132,7 @@ const labelClass =
 
         <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
           <button type="button" data-download class="inline-flex items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black hover:bg-white transition-colors">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <Icon name="Download" size={18} />
             {c.download}
           </button>
         </div>

@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { t, localePath, type Locale } from '../i18n';
 import LangSwitch from './LangSwitch.astro';
 
@@ -50,11 +51,7 @@ const links = [
         data-mobile-toggle
         class="lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-[var(--color-text)]"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
-          <line x1="3" y1="7" x2="21" y2="7" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="17" x2="21" y2="17" />
-        </svg>
+        <Icon name="Menu" size={26} />
       </button>
     </div>
   </div>

@@ -1,0 +1,38 @@
+---
+// Single entry point for icons, rendered to inline SVG at build time (no runtime JS).
+//   <Icon name="Mail" />            → Lucide (generic UI icons)    https://lucide.dev/icons
+//   <Icon brand="youtube" />        → Simple Icons (brand logos)   https://simpleicons.org
+import * as lucide from 'lucide-static';
+import { siYoutube, siInstagram, siTiktok, siWhatsapp } from 'simple-icons';
+
+const BRANDS = { youtube: siYoutube, instagram: siInstagram, tiktok: siTiktok, whatsapp: siWhatsapp };
+
+interface Props {
+  name?: keyof typeof lucide;
+  brand?: keyof typeof BRANDS;
+  size?: number;
+  strokeWidth?: number;   // Lucide only
+  class?: string;
+  label?: string;         // set for meaningful icons; omitted = decorative (aria-hidden)
+}
+
+const { name, brand, size = 24, strokeWidth, class: cls = '', label } = Astro.props;
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
+
+let svg = '';
+if (brand) {
+  const b = BRANDS[brand];
+  svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" class="${cls}" ${a11y}><path d="${b.path}"/></svg>`;
+} else if (name) {
+  const raw = lucide[name] as string;
+  if (typeof raw !== 'string') throw new Error(`Unknown Lucide icon: ${name}`);
+  svg = raw
+    .replace(/\sclass="[^"]*"/, ` class="${cls}" ${a11y}`)
+    .replace(/width="24"/, `width="${size}"`)
+    .replace(/height="24"/, `height="${size}"`);
+  if (strokeWidth) svg = svg.replace(/stroke-width="2"/, `stroke-width="${strokeWidth}"`);
+} else {
+  throw new Error('Icon needs `name` or `brand`');
+}
+---
+<Fragment set:html={svg} />
