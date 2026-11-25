@@ -2,7 +2,8 @@
 // Shown on shop pages to visitors whose browser looks like it's in a country with an
 // official reseller. English only on purpose (agreed with the owner). Dismissal is
 // remembered for 30 days in localStorage.
-import { RESELLERS, telHref } from '../data/resellers';
+import { RESELLERS } from '../data/resellers';
+import ResellerContact from './ResellerContact.astro';
 
 const detectable = RESELLERS.filter((r) => r.detect);
 ---
@@ -24,15 +25,7 @@ const detectable = RESELLERS.filter((r) => r.detect);
       <h2 id={`reseller-${r.key}-title`} class="font-display text-2xl sm:text-3xl text-white leading-tight">
         {r.name} is our official reseller for {r.country.en}.
       </h2>
-      <ul class="mt-4 space-y-1 text-sm text-[var(--color-text-muted)]">
-        <li>{r.address}</li>
-        <li>
-          {r.phones.map((p, i) => (
-            <>{i > 0 && ' · '}<a href={telHref(p)} class="hover:text-[var(--color-accent)] transition-colors">{p}</a></>
-          ))}
-        </li>
-        <li><a href={`mailto:${r.email}`} class="hover:text-[var(--color-accent)] transition-colors">{r.email}</a></li>
-      </ul>
+      <ResellerContact reseller={r} class="mt-4" />
       <div class="mt-6 flex flex-col sm:flex-row gap-3">
         <a href={r.url} target="_blank" rel="noopener" data-reseller-go autofocus class="flex-1 inline-flex items-center justify-center bg-[var(--color-accent)] hover:bg-[var(--color-accent-deep)] text-black font-semibold text-sm px-5 py-3 rounded-sm transition-colors">
           Go to {r.name}

@@ -1,0 +1,28 @@
+---
+// Contact lines (address, phones, email) for a reseller, shared by the shop card and the modal.
+import { MapPin, Phone, Mail } from 'lucide-static';
+import { telHref, type Reseller } from '../data/resellers';
+
+const { reseller: r, class: cls = '' } = Astro.props as { reseller: Reseller; class?: string };
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.address)}`;
+const icon = 'shrink-0 mt-0.5 text-[var(--color-accent)] [&>svg]:w-4 [&>svg]:h-4';
+const link = 'hover:text-[var(--color-accent)] transition-colors';
+---
+<ul class={`space-y-2 text-sm text-[var(--color-text-muted)] ${cls}`}>
+  <li class="flex items-start gap-2.5">
+    <span class={icon} aria-hidden="true" set:html={MapPin} />
+    <a href={mapsHref} target="_blank" rel="noopener" class={link}>{r.address}</a>
+  </li>
+  <li class="flex items-start gap-2.5">
+    <span class={icon} aria-hidden="true" set:html={Phone} />
+    <span>
+      {r.phones.map((p, i) => (
+        <>{i > 0 && ' · '}<a href={telHref(p)} class={`${link} whitespace-nowrap`}>{p}</a></>
+      ))}
+    </span>
+  </li>
+  <li class="flex items-start gap-2.5">
+    <span class={icon} aria-hidden="true" set:html={Mail} />
+    <a href={`mailto:${r.email}`} class={link}>{r.email}</a>
+  </li>
+</ul>
