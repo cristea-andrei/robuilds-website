@@ -21,7 +21,7 @@ export const RESELLERS: Reseller[] = [
     name: 'Rivigum',
     country: { ro: 'Ungaria', en: 'Hungary' },
     url: 'https://rivigum.hu/',
-    // logo: '/logos/resellers/rivigum.png',
+    logo: '/logos/resellers/rivigum.png',
     address: '2336 Dunavarsány, Bajai út 20.',
     phones: ['+36 70 233 7400', '+36 70 881 6323'],
     email: 'info@rivigum.hu',
